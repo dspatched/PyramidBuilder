@@ -1,5 +1,8 @@
 package com.dspatched;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class PyramidBuilder {
 
     private int rows;
@@ -24,15 +27,16 @@ public class PyramidBuilder {
         if (!canBuild) throw new CannotBuildPyramidException();
     }
 
-    public int[][] build(int input) throws CannotBuildPyramidException {
-        this.check(input);
+    public int[][] build(ArrayList<Integer> input) throws CannotBuildPyramidException {
+        this.check(input.size());
+        Collections.sort(input);
         int [][] pyramid = new int[this.rows][this.columns];
         int number = this.max;
-        int start = this.columns;
+        int start = this.columns, stop = -2;
         outer: for (int i = this.rows-1; i > -1; i--) {
-            start -= 1;
-            for (int j = start; j > -1; j-= 2) {
-                pyramid[i][j] = number;
+            start--; stop++;
+            for (int j = start; j > stop; j-= 2) {
+                pyramid[i][j] = input.get(number-1);
                 number--;
                 if (number == 0) break outer;
             }
